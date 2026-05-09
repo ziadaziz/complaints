@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CS Complaints — Q1 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+    --w:#ffffff;
+    --off:#f3f8ff;
+    --off2:#dbeafe;
+    --bd:#b6d4fe;
+    --blue:#0b84e3;
+    --navy:#066cc1;
+    --slate:#3b4b63;
+    --muted:#6b8bb3;
+    --jan:#0b84e3;
+    --feb:#39a0ed;
+    --mar:#0077d7;
+    --red:#0a6fc2;
+    --amb:#58b6ff;
+    --pur:#2d9bf0;
+    --body:'Plus Jakarta Sans',sans-serif;
+    --mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--off);color:var(--navy);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+.topbar{background:linear-gradient(90deg,#0b84e3,#0077d7);padding:0 28px;height:40px;display:flex;align-items:center;justify-content:space-between;}
+.tb-brand{font-size:0.68rem;font-weight:700;letter-spacing:2px;color:#60a5fa;}
+.tb-items{display:flex;gap:20px;align-items:center;}
+.tb-item{font-family:var(--mono);font-size:0.6rem;color:#94a3b8;display:flex;align-items:center;gap:5px;}
+.tb-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.tb-right{font-family:var(--mono);font-size:0.58rem;color:#475569;}
+header{background:linear-gradient(135deg,#ffffff,#eef7ff);border-bottom:1px solid var(--bd);padding:0 28px;display:flex;align-items:center;box-shadow:0 6px 18px rgba(11,132,227,0.08);}
+.hd-main{flex:1;padding:20px 28px 20px 0;border-right:1px solid var(--bd);margin-right:28px;}
+.hd-ey{font-family:var(--mono);font-size:0.58rem;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.hd-title{font-size:1.75rem;font-weight:800;color:var(--navy);letter-spacing:-0.5px;line-height:1.1;}
+.hd-title span{color:var(--blue);}
+.hd-sub{font-size:0.76rem;color:var(--muted);margin-top:4px;}
+.hd-stats{display:flex;align-items:stretch;padding:14px 0;}
+.hd-s{padding:0 20px;border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:2px;}
+.hd-s:first-child{padding-left:0;}
+.hd-s:last-child{border-right:none;}
+.hd-sv{font-size:1.4rem;font-weight:800;color:var(--navy);letter-spacing:-0.5px;}
+.hd-sv.b{color:var(--blue);}
+.hd-sv.g{color:#059669;}
+.hd-sv.r{color:var(--red);}
+.hd-sl{font-family:var(--mono);font-size:0.54rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+nav{background:var(--w);border-bottom:2px solid var(--bd);padding:0 28px;display:flex;position:sticky;top:0;z-index:200;box-shadow:0 2px 6px rgba(0,0,0,0.05);overflow-x:auto;}
+nav::-webkit-scrollbar{height:0;}
+.nb{font-size:0.74rem;font-weight:600;color:var(--muted);cursor:pointer;padding:12px 16px;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all 0.15s;}
+.nb:hover{color:var(--navy);}
+.nb.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:700;}
+.page{display:none;padding:24px 28px;flex-direction:column;gap:16px;}
+.page.active{display:flex;}
+.slbl{font-family:var(--mono);font-size:0.56rem;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:-4px;}
+.slbl::after{content:'';flex:1;height:1px;background:var(--bd);}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;}
+.kpi{background:var(--w);border:1px solid var(--bd);border-radius:10px;padding:15px 15px 12px;position:relative;overflow:hidden;box-shadow:0 8px 20px rgba(11,132,227,0.08);transition:box-shadow 0.2s,transform 0.15s;}
+.kpi:hover{box-shadow:0 4px 14px rgba(0,0,0,0.08);transform:translateY(-1px);}
+.kpi-ac{position:absolute;top:0;left:0;right:0;height:3px;background:var(--a,var(--blue));border-radius:10px 10px 0 0;}
+.kpi-lb{font-family:var(--mono);font-size:0.53rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.kpi-vs{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;}
+.kv{font-size:1.6rem;font-weight:800;line-height:1;letter-spacing:-0.5px;}
+.kv.j{color:var(--jan);}
+.kv.f{color:var(--feb);}
+.kv.m{color:var(--mar);}
+.sep{font-family:var(--mono);font-size:0.48rem;color:#c8cde8;}
+.kpi-ch{font-family:var(--mono);font-size:0.56rem;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;}
+.ch-u{color:#dc2626;background:#fef2f2;border:1px solid #fecaca;}
+.ch-d{color:#059669;background:#f0fdf4;border:1px solid #bbf7d0;}
+.ch-n{color:var(--muted);background:var(--off2);border:1px solid var(--bd);}
+.kpi-sb{font-size:0.62rem;color:var(--muted);margin-top:2px;font-weight:500;}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 8px 20px rgba(11,132,227,0.08);}
+.ct{font-size:0.88rem;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px;}
+.ct::before{content:'';width:3px;height:14px;border-radius:2px;background:var(--a,var(--blue));flex-shrink:0;}
+.cs{font-family:var(--mono);font-size:0.57rem;color:var(--muted);margin-top:-6px;}
+.cw{position:relative;flex:1;min-height:210px;}
+canvas{width:100%!important;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;}
+.fc-card{background:var(--w);border:1px solid var(--bd);border-radius:10px;padding:16px;cursor:pointer;border-top:3px solid var(--fcc,var(--blue));box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:box-shadow 0.2s,transform 0.15s;display:flex;flex-direction:column;gap:7px;}
+.fc-card:hover{box-shadow:0 8px 22px rgba(0,0,0,0.1);transform:translateY(-2px);}
+.fc-code{font-size:0.98rem;font-weight:800;color:var(--fcc,var(--blue));}
+.fc-tot{font-size:1.85rem;font-weight:800;color:var(--navy);letter-spacing:-1px;line-height:1;}
+.fc-meta{font-family:var(--mono);font-size:0.5rem;color:var(--muted);}
+.fc-bars{display:flex;flex-direction:column;gap:4px;margin-top:3px;}
+.fc-br{display:flex;align-items:center;gap:6px;}
+.fc-bl{font-family:var(--mono);font-size:0.47rem;color:var(--muted);width:21px;}
+.fc-bt{flex:1;height:5px;background:var(--off2);border-radius:3px;overflow:hidden;}
+.fc-bf{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(.4,0,.2,1);}
+.fc-sr{display:flex;gap:11px;margin-top:4px;}
+.fc-sv{font-size:0.72rem;font-weight:700;}
+.fc-sl{font-family:var(--mono);font-size:0.45rem;color:var(--muted);text-transform:uppercase;}
+.fc-bdg{font-family:var(--mono);font-size:0.5rem;font-weight:600;padding:3px 8px;border-radius:4px;display:inline-block;margin-top:2px;}
+.bb{display:flex;flex-direction:column;gap:8px;}
+.br{display:flex;flex-direction:column;gap:3px;}
+.bm{display:flex;justify-content:space-between;align-items:center;}
+.bn{font-size:0.77rem;font-weight:600;color:var(--navy);}
+.bv{font-family:var(--mono);font-size:0.6rem;font-weight:600;}
+.bt{height:6px;background:var(--off2);border-radius:3px;overflow:hidden;}
+.bf{height:100%;border-radius:3px;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.back-btn{display:inline-flex;align-items:center;gap:7px;font-size:0.77rem;font-weight:600;color:var(--blue);cursor:pointer;padding:7px 14px;border-radius:8px;border:1px solid #bfdbfe;background:#eff6ff;transition:all 0.15s;width:fit-content;}
+.back-btn:hover{background:#dbeafe;}
+.fc-ph{background:var(--w);border:1px solid var(--bd);border-radius:10px;border-top:4px solid var(--fcc2,var(--blue));padding:20px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+.fc-pn{font-size:2.1rem;font-weight:800;color:var(--fcc2,var(--blue));letter-spacing:-1px;line-height:1;}
+.fc-ps{font-family:var(--mono);font-size:0.57rem;color:var(--muted);margin-top:4px;}
+.fc-kr{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;}
+.mbdg{font-family:var(--mono);font-size:0.62rem;font-weight:600;padding:5px 11px;border-radius:6px;display:flex;align-items:center;gap:5px;}
+.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(218px,1fr));gap:12px;}
+.ins{background:var(--w);border:1px solid var(--bd);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:7px;border-left:4px solid var(--a,var(--blue));box-shadow:0 8px 20px rgba(11,132,227,0.08);transition:box-shadow 0.2s;}
+.ins:hover{box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+.in{font-family:var(--mono);font-size:0.56rem;color:var(--a,var(--blue));letter-spacing:1px;font-weight:600;}
+.it{font-size:0.87rem;font-weight:700;color:var(--navy);line-height:1.2;}
+.ib{font-size:0.76rem;color:var(--slate);line-height:1.55;}
+.itg{font-family:var(--mono);font-size:0.53rem;font-weight:700;padding:3px 8px;border-radius:4px;width:fit-content;}
+.tr{color:#dc2626;background:#fef2f2;border:1px solid #fecaca;}
+.tg{color:#059669;background:#f0fdf4;border:1px solid #bbf7d0;}
+.tb2{color:var(--blue);background:#eff6ff;border:1px solid #bfdbfe;}
+.ty{color:#b45309;background:#fffbeb;border:1px solid #fde68a;}
+footer{background:var(--w);border-top:1px solid var(--bd);padding:11px 28px;display:flex;justify-content:space-between;align-items:center;}
+.fl{font-family:var(--mono);font-size:0.57rem;color:var(--muted);}
+.fr{font-size:0.72rem;font-weight:700;color:var(--blue);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.page.active>*{animation:fadeUp 0.27s ease both;}
+.page.active>*:nth-child(1){animation-delay:0s}
+.page.active>*:nth-child(2){animation-delay:0.05s}
+.page.active>*:nth-child(3){animation-delay:0.1s}
+.page.active>*:nth-child(4){animation-delay:0.15s}
+.page.active>*:nth-child(5){animation-delay:0.2s}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="tb-items"><span class="tb-brand">VOO Analytics</span><span class="tb-item"><span class="tb-dot"></span>Q1 2026 · Live Report</span><span class="tb-item">9 Branches · All Data</span></div>
+  <span class="tb-right">Ramadan: Feb 19 – Mar 19, 2026</span>
+</div>
+
+<header>
+  <div style="display:flex;align-items:center;gap:18px;padding-right:20px;">
+    <img src="data:image/webp;base64,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" alt="VOO Logo" style="width:95px;border-radius:18px;box-shadow:0 4px 14px rgba(11,132,227,.18);">
+  </div>
+
+  <div class="hd-main">
+    <div class="hd-ey">// Customer Service · Q1 2026 Intelligence Report</div>
+    <div class="hd-title">VOO <span>Dashboard</span></div>
+    <div class="hd-sub">January 1 – March 31, 2026 &nbsp;·&nbsp; All Fulfilment Centres &nbsp;·&nbsp; Full Quarter Analysis</div>
+  </div>
+  <div class="hd-stats">
+    <div class="hd-s"><div class="hd-sv">4,800</div><div class="hd-sl">Q1 Total</div></div>
+    <div class="hd-s"><div class="hd-sv b">98.7%</div><div class="hd-sl">Resolution</div></div>
+    <div class="hd-s"><div class="hd-sv r">88.7%</div><div class="hd-sl">Late Orders</div></div>
+    <div class="hd-s"><div class="hd-sv g">9</div><div class="hd-sl">Branches</div></div>
+  </div>
+</header>
+<nav>
+  <div class="nb active" onclick="showPage('overview',this)">📊 Overview</div>
+  <div class="nb" onclick="showPage('trends',this)">📈 Daily Trends</div>
+  <div class="nb" onclick="showPage('fc-home',this)">🏭 Branches</div>
+  <div class="nb" onclick="showPage('types',this)">📋 Complaint Types</div>
+  <div class="nb" onclick="showPage('ramadan',this)">🌙 Ramadan YoY</div>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="page-overview" class="page active">
+  <div class="slbl">Key Performance Indicators</div>
+  <div class="kpi-strip">
+    <div class="kpi" style="--a:var(--blue)"><div class="kpi-ac"></div><div class="kpi-lb">Monthly Total</div><div class="kpi-vs"><span class="kv j">1,496</span><span class="sep">/</span><span class="kv f">1,302</span><span class="sep">/</span><span class="kv m">2,002</span></div><div class="kpi-ch ch-u">▲ Mar +34% vs Jan</div><div class="kpi-sb">Q1 Total: 4,800</div></div>
+    <div class="kpi" style="--a:var(--red)"><div class="kpi-ac"></div><div class="kpi-lb">Late Orders</div><div class="kpi-vs"><span class="kv j">1,335</span><span class="sep">/</span><span class="kv f">1,115</span><span class="sep">/</span><span class="kv m">1,806</span></div><div class="kpi-ch ch-u">89% → 86% → 90%</div><div class="kpi-sb">Q1: 4,256 late orders</div></div>
+    <div class="kpi" style="--a:#059669"><div class="kpi-ac"></div><div class="kpi-lb">Resolution Rate</div><div class="kpi-vs"><span class="kv j" style="font-size:1.1rem">99.0%</span><span class="sep">/</span><span class="kv f" style="font-size:1.1rem">98.8%</span><span class="sep">/</span><span class="kv m" style="font-size:1.1rem">98.3%</span></div><div class="kpi-ch ch-d">✓ Consistently high</div><div class="kpi-sb">Q1 Avg: 98.7%</div></div>
+    <div class="kpi" style="--a:var(--feb)"><div class="kpi-ac"></div><div class="kpi-lb">Daily Average</div><div class="kpi-vs"><span class="kv j">48</span><span class="sep">/</span><span class="kv f">46</span><span class="sep">/</span><span class="kv m">65</span></div><div class="kpi-ch ch-u">▲ Mar +35%</div><div class="kpi-sb">Complaints per day</div></div>
+    <div class="kpi" style="--a:var(--pur)"><div class="kpi-ac"></div><div class="kpi-lb">Active Branches</div><div class="kpi-vs"><span class="kv" style="color:var(--pur)">9</span></div><div class="kpi-ch ch-n">NGZFC joined Feb</div><div class="kpi-sb">Fulfilment centres</div></div>
+    <div class="kpi" style="--a:var(--amb)"><div class="kpi-ac"></div><div class="kpi-lb">Q1 Record Day</div><div class="kpi-vs"><span class="kv" style="color:var(--amb)">178</span></div><div class="kpi-ch ch-u">▲ Mar 25 anomaly</div><div class="kpi-sb">Investigate root cause</div></div>
+  </div>
+  <div class="g2">
+    <div class="card" style="--a:var(--blue)"><div class="ct">Monthly Volume</div><div class="cs">TOTAL COMPLAINTS JAN / FEB / MAR</div><div class="cw"><canvas id="ov_vol"></canvas></div></div>
+    <div class="card" style="--a:var(--feb)"><div class="ct">Day-of-Week Pattern</div><div class="cs">WHICH DAYS DRIVE MOST COMPLAINTS</div><div class="cw"><canvas id="ov_dow"></canvas></div></div>
+  </div>
+  <div class="g2">
+    <div class="card" style="--a:var(--mar)"><div class="ct">Type Share by Month</div><div class="cs">STACKED % BREAKDOWN</div><div class="cw"><canvas id="ov_ts"></canvas></div></div>
+    <div class="card" style="--a:var(--pur)"><div class="ct">Q1 Complaint Mix</div><div class="cs">ALL 3 MONTHS COMBINED</div><div class="cw"><canvas id="ov_pie"></canvas></div></div>
+  </div>
+</div>
+
+<!-- TRENDS -->
+<div id="page-trends" class="page">
+  <div class="slbl">Daily Complaint Volume · Jan 1 → Mar 31</div>
+  <div class="card" style="--a:var(--blue)"><div class="ct">90-Day Full Quarter Trend</div><div class="cs">RAMADAN: FEB 19–MAR 19 · RECORD: MAR 25 → 178</div><div class="cw" style="min-height:280px;"><canvas id="tr_full"></canvas></div></div>
+  <div class="g3">
+    <div class="card" style="--a:var(--jan)"><div class="ct">January</div><div class="cs">PEAK: JAN 12 → 86</div><div class="cw" style="min-height:168px;"><canvas id="tr_jan"></canvas></div></div>
+    <div class="card" style="--a:var(--feb)"><div class="ct">February</div><div class="cs">RAMADAN STARTS FEB 19</div><div class="cw" style="min-height:168px;"><canvas id="tr_feb"></canvas></div></div>
+    <div class="card" style="--a:var(--mar)"><div class="ct">March</div><div class="cs">RECORD: MAR 25 → 178</div><div class="cw" style="min-height:168px;"><canvas id="tr_mar"></canvas></div></div>
+  </div>
+  <div class="card" style="--a:var(--pur)"><div class="ct">7-Day Rolling Average</div><div class="cs">SMOOTHED TREND — REVEALS STRUCTURAL SHIFTS</div><div class="cw" style="min-height:220px;"><canvas id="tr_roll"></canvas></div></div>
+</div>
+
+<!-- FC HOME -->
+<div id="page-fc-home" class="page">
+  <div class="slbl">Fulfilment Centres — Click any branch for full details</div>
+  <div class="fc-grid" id="fcGrid"></div>
+  <div class="card" style="--a:var(--blue)"><div class="ct">Branch Monthly Comparison</div><div class="cs">ALL 9 BRANCHES · JAN / FEB / MAR</div><div class="cw" style="min-height:280px;"><canvas id="fc_grp"></canvas></div></div>
+  <div class="g2">
+    <div class="card" style="--a:var(--feb)"><div class="ct">Q1 Branch Share</div><div class="cw"><canvas id="fc_don"></canvas></div></div>
+    <div class="card" style="--a:var(--mar)"><div class="ct">Branch Trend Jan → Mar</div><div class="cs">WHICH BRANCHES GREW vs IMPROVED</div><div class="cw"><canvas id="fc_lin"></canvas></div></div>
+  </div>
+</div>
+
+<!-- FC DETAIL -->
+<div id="page-fc-detail" class="page"><div id="fc-dc"></div></div>
+
+<!-- TYPES -->
+<div id="page-types" class="page">
+  <div class="slbl">Complaint Type Analysis</div>
+  <div class="g3">
+    <div class="card" style="--a:var(--jan)"><div class="ct">January Types</div><div class="cw" style="min-height:200px;"><canvas id="ty_j"></canvas></div></div>
+    <div class="card" style="--a:var(--feb)"><div class="ct">February Types</div><div class="cw" style="min-height:200px;"><canvas id="ty_f"></canvas></div></div>
+    <div class="card" style="--a:var(--mar)"><div class="ct">March Types</div><div class="cw" style="min-height:200px;"><canvas id="ty_m"></canvas></div></div>
+  </div>
+  <div class="card" style="--a:var(--blue)"><div class="ct">Type Comparison — Jan / Feb / Mar</div><div class="cw" style="min-height:260px;"><canvas id="ty_cmp"></canvas></div></div>
+</div>
+
+<!-- INSIGHTS -->
+
+
+<footer>
+  <div class="fl">Source: CS Complaints Log Q1 2026 · Jan + Feb + Ramadan (Feb 19–Mar 19) + Mar · April 2026</div>
+  <div class="fr">VOO Analytics Report</div>
+</footer>
+<div id="page-ramadan" class="page">
+  <div class="slbl">Ramadan 2025 vs Ramadan 2026 — Year-over-Year Expert Analysis</div>
+
+  <div class="kpi-strip">
+    <div class="kpi" style="--a:var(--blue)"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Total Complaints</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6;font-size:1rem">449</span><span class="sep2">→</span><span class="kv" style="color:var(--blue)">1,426</span></div>
+      <div class="kpi-ch ch-u">▲ +218% YoY</div><div class="kpi-sb">Ramadan 2025 → 2026</div>
+    </div>
+    <div class="kpi" style="--a:#dc2626"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Late Orders</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6;font-size:1rem">311</span><span class="sep2">→</span><span class="kv" style="color:#dc2626">1,211</span></div>
+      <div class="kpi-ch ch-u">▲ +289% | 69% → 85%</div><div class="kpi-sb">Share of total</div>
+    </div>
+    <div class="kpi" style="--a:#059669"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Resolution Rate</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6;font-size:1rem">96.9%</span><span class="sep2">→</span><span class="kv" style="color:#059669">99.4%</span></div>
+      <div class="kpi-ch ch-d">▼ Improved +2.5pp</div><div class="kpi-sb">CS team got better</div>
+    </div>
+    <div class="kpi" style="--a:#059669"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Expired Items</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6;font-size:1rem">44</span><span class="sep2">→</span><span class="kv" style="color:#059669">13</span></div>
+      <div class="kpi-ch ch-d">▼ −70% Quality Win</div><div class="kpi-sb">9.8% → 0.9% of total</div>
+    </div>
+    <div class="kpi" style="--a:#7c3aed"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Active FCs</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6">7</span><span class="sep2">→</span><span class="kv" style="color:#7c3aed">9</span></div>
+      <div class="kpi-ch ch-u">▲ +2 New FCs</div><div class="kpi-sb">NGZFC + GOUNAFC added</div>
+    </div>
+    <div class="kpi" style="--a:#d97706"><div class="kpi-ac"></div>
+      <div class="kpi-lb">Avg Daily</div>
+      <div class="kpi-vs"><span class="kv" style="color:#95a5a6">15</span><span class="sep2">→</span><span class="kv" style="color:#d97706">75</span></div>
+      <div class="kpi-ch ch-u">▲ 5× daily volume</div><div class="kpi-sb">Per calendar day</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card" style="--a:var(--blue)">
+      <div class="ct">Daily Trend — Ramadan 2025 vs 2026</div>
+      <div class="cs2">DAY-BY-DAY COMPLAINT VOLUME ACROSS RAMADAN</div>
+      <div class="cw" style="min-height:250px;"><canvas id="ram_daily"></canvas></div>
+    </div>
+    <div class="card" style="--a:#d97706">
+      <div class="ct">Day-of-Week Pattern</div>
+      <div class="cs2">WHICH DAYS WERE BUSIEST EACH YEAR</div>
+      <div class="cw" style="min-height:250px;"><canvas id="ram_dow"></canvas></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card" style="--a:#dc2626">
+      <div class="ct">FC Breakdown — 2025 vs 2026</div>
+      <div class="cs2">COMPLAINTS PER FULFILMENT CENTRE</div>
+      <div class="cw" style="min-height:260px;"><canvas id="ram_fc"></canvas></div>
+    </div>
+    <div class="card" style="--a:#059669">
+      <div class="ct">Complaint Type % Share</div>
+      <div class="cs2">HOW THE MIX CHANGED BETWEEN RAMADANS</div>
+      <div class="cw" style="min-height:260px;"><canvas id="ram_types"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card" style="--a:#7c3aed">
+    <div class="ct">FC Growth — Ramadan 2025 → 2026</div>
+    <div class="cs2">SIDE-BY-SIDE BARS WITH % CHANGE PER BRANCH</div>
+    <div class="bb" id="ram_fc_bars" style="margin-top:8px;"></div>
+  </div>
+
+</div>
+
+
+<script>
+Chart.defaults.color='#94a3b8';Chart.defaults.borderColor='#e2e8f0';Chart.defaults.font.family="'Plus Jakarta Sans',sans-serif";
+const JN='#2563eb',FB='#0891b2',MR='#059669',RD='#dc2626',AM='#d97706',PR='#7c3aed';
+const PAL=[JN,FB,MR,RD,PR,'#ea580c','#0284c7',AM,'#16a34a'];
+const TT={backgroundColor:'#fff',borderColor:'#e2e8f0',borderWidth:1,titleColor:'#0f172a',bodyColor:'#475569',titleFont:{size:11,weight:'700'},bodyFont:{size:10},padding:10,cornerRadius:8};
+const SC=(x=9,y=10)=>({x:{grid:{color:'#f1f5f9'},ticks:{font:{size:x},color:'#94a3b8'}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:y},color:'#94a3b8'}}});
+const BO={responsive:true,maintainAspectRatio:false,animation:{duration:500},plugins:{legend:{labels:{font:{size:10},color:'#64748b',boxWidth:9,padding:10}},tooltip:TT}};
+function mB(id,labels,datasets,ex={}){const el=document.getElementById(id);if(!el)return;return new Chart(el,{type:'bar',data:{labels,datasets},options:{...BO,...ex,plugins:{...BO.plugins,...(ex.plugins||{})},scales:SC(8,10)}});}
+function mL(id,labels,datasets,ex={}){const el=document.getElementById(id);if(!el)return;return new Chart(el,{type:'line',data:{labels,datasets},options:{...BO,...ex,plugins:{...BO.plugins,...(ex.plugins||{})},scales:SC(8,10)}});}
+function mD(id,labels,data,colors){const el=document.getElementById(id);if(!el)return;return new Chart(el,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors,borderColor:'#fff',borderWidth:3,hoverOffset:8}]},options:{...BO,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:9},color:'#475569',boxWidth:9,padding:9}},tooltip:{...TT,callbacks:{label:c=>` ${c.label}: ${c.parsed} (${((c.parsed/c.dataset.data.reduce((a,b)=>a+b,0))*100).toFixed(1)}%)`}}}}});}
+
+const TYP=['Late Order','Wrong Order','Missing Item','Damaged Item','Delivered by Mistake','Rider Complaint','Wrong Item','Expired Items','FC Complaint'];
+const TJ=[1335,38,36,29,20,19,4,5,2],TF=[1115,31,27,43,17,24,15,11,8],TM=[1806,33,33,34,31,35,6,7,13];
+const DY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DJ=[172,239,189,211,250,231,204],DF=[176,213,208,144,197,179,185],DM=[317,356,287,281,290,229,242];
+const JL=['Jan 1','Jan 2','Jan 3','Jan 4','Jan 5','Jan 6','Jan 7','Jan 8','Jan 9','Jan 10','Jan 11','Jan 12','Jan 13','Jan 14','Jan 15','Jan 16','Jan 17','Jan 18','Jan 19','Jan 20','Jan 21','Jan 22','Jan 23','Jan 24','Jan 25','Jan 26','Jan 27','Jan 28','Jan 29','Jan 30','Jan 31'];
+const JV=[68,68,46,44,71,51,49,58,43,68,61,86,67,55,45,46,20,31,36,20,70,36,46,33,36,46,51,37,43,28,37];
+const FL=['Feb 1','Feb 2','Feb 3','Feb 4','Feb 5','Feb 6','Feb 7','Feb 8','Feb 9','Feb 10','Feb 11','Feb 12','Feb 13','Feb 14','Feb 15','Feb 16','Feb 17','Feb 18','Feb 19','Feb 20','Feb 21','Feb 22','Feb 23','Feb 24','Feb 25','Feb 26','Feb 27','Feb 28'];
+const FV=[46,41,41,27,42,35,26,33,36,26,36,63,59,73,52,86,58,43,52,42,34,45,50,83,38,40,43,52];
+const ML=['Mar 1','Mar 2','Mar 3','Mar 4','Mar 5','Mar 6','Mar 7','Mar 8','Mar 9','Mar 10','Mar 11','Mar 12','Mar 13','Mar 14','Mar 15','Mar 16','Mar 17','Mar 18','Mar 19','Mar 20','Mar 21','Mar 22','Mar 23','Mar 24','Mar 25','Mar 26','Mar 27','Mar 28','Mar 29','Mar 30','Mar 31'];
+const MV=[40,44,37,26,38,56,52,60,51,39,28,54,70,62,67,87,46,49,47,38,47,43,55,81,178,151,65,81,107,119,84];
+
+const FCD={
+  LTSFC:{c:JN,total:1037,j:429,f:314,m:294,lr:93.4,rr:98.6,types:{'Late Order':969,'Wrong Order':20,'Missing Item':14,'Rider Complaint':14,'Damaged Item':9,'Delivered by Mistake':5,'Wrong Item':3,'FC Complaint':2,'Expired Items':1},res:{'No Action Required':881,'Order Redelivered':58,'Order Canceled':32,'Amount Added':28,'Complementary SC':20,'Delivery Free':12},mj:{t:429,l:390},mf:{t:314,l:294},mm:{t:294,l:285},dow:{Sun:148,Mon:177,Tue:149,Wed:154,Thu:188,Fri:131,Sat:90},ram:1,norm:1036,dj:[30,28,18,20,32,22,20,26,18,29,27,38,29,22,19,20,8,12,16,8,30,16,20,14,16,20,22,16,18,12,16],df:[20,18,18,11,17,14,11,13,14,11,15,27,25,31,22,35,24,18,22,18,14,18,21,34,16,16,18,22],dm:[17,19,16,11,16,23,21,25,21,16,11,21,28,25,27,34,18,20,19,16,19,17,21,31,68,57,24,30,40,45,32]},
+  NCFC:{c:FB,total:598,j:248,f:62,m:288,lr:94.3,rr:96.7,types:{'Late Order':564,'Missing Item':9,'Wrong Order':8,'Rider Complaint':4,'Damaged Item':4,'FC Complaint':3,'Delivered by Mistake':3,'Wrong Item':2,'Expired Items':1},res:{'No Action Required':502,'Order Redelivered':36,'Order Canceled':22,'Amount Added':15,'Complementary SC':12,'Delivery Free':6},mj:{t:248,l:228},mf:{t:62,l:55},mm:{t:288,l:281},dow:{Sun:84,Mon:102,Tue:88,Wed:86,Thu:106,Fri:73,Sat:59},ram:0,norm:598,dj:[22,22,15,14,23,16,15,18,13,22,20,28,22,18,15,15,7,10,12,7,22,12,15,11,12,15,17,12,14,9,12],df:[6,5,5,3,5,4,3,4,4,3,4,8,7,9,6,10,7,5,6,5,4,5,6,10,5,5,6,6],dm:[12,14,11,8,11,16,15,18,15,11,8,15,20,18,20,25,13,14,14,11,14,12,15,22,50,44,18,23,30,34,24]},
+  SHZFC:{c:MR,total:927,j:545,f:269,m:113,lr:91.4,rr:98.7,types:{'Late Order':847,'Missing Item':15,'Delivered by Mistake':14,'Damaged Item':14,'Rider Complaint':13,'Wrong Order':10,'Wrong Item':7,'Expired Items':5,'FC Complaint':2},res:{'No Action Required':798,'Order Redelivered':55,'Order Canceled':28,'Amount Added':20,'Complementary SC':16,'Delivery Free':8},mj:{t:545,l:504},mf:{t:269,l:238},mm:{t:113,l:105},dow:{Sun:130,Mon:168,Tue:140,Wed:150,Thu:174,Fri:100,Sat:65},ram:1,norm:926,dj:[45,44,30,28,46,33,31,37,27,44,40,56,43,35,29,30,13,20,23,13,45,23,30,21,23,30,33,24,27,18,24],df:[26,24,24,16,25,20,15,19,20,16,21,37,34,43,30,49,33,25,30,24,19,25,28,46,21,22,24,29],dm:[10,12,9,6,9,13,12,14,12,9,6,12,16,14,15,20,11,11,11,9,10,10,12,18,14,12,6,8,12,14,9]},
+  HELIOFC:{c:PR,total:258,j:116,f:47,m:95,lr:86.4,rr:100,types:{'Late Order':223,'Wrong Order':10,'Damaged Item':9,'Missing Item':4,'Rider Complaint':4,'Delivered by Mistake':4,'Wrong Item':2,'Expired Items':1,'FC Complaint':1},res:{'No Action Required':220,'Order Redelivered':15,'Order Canceled':10,'Amount Added':7,'Complementary SC':4,'Delivery Free':2},mj:{t:116,l:101},mf:{t:47,l:37},mm:{t:95,l:85},dow:{Sun:36,Mon:45,Tue:38,Wed:40,Thu:48,Fri:32,Sat:19},ram:0,norm:258,dj:[10,10,7,6,10,7,7,8,6,10,9,13,10,8,6,7,3,5,5,3,10,5,7,5,5,7,7,5,6,4,5],df:[5,4,4,3,4,3,3,3,3,3,3,6,5,7,5,8,5,4,5,4,3,4,4,6,3,3,4,4],dm:[4,5,4,3,4,6,5,7,5,4,3,5,7,6,7,9,5,5,5,4,5,4,5,8,10,8,4,5,7,8,5]},
+  MADFC:{c:'#ea580c',total:250,j:87,f:78,m:85,lr:84.0,rr:98.8,types:{'Late Order':210,'Wrong Order':9,'Delivered by Mistake':8,'Damaged Item':6,'Rider Complaint':6,'Missing Item':5,'Expired Items':3,'Wrong Item':2,'FC Complaint':1},res:{'No Action Required':214,'Order Redelivered':14,'Order Canceled':10,'Amount Added':6,'Complementary SC':4,'Delivery Free':2},mj:{t:87,l:67},mf:{t:78,l:66},mm:{t:85,l:77},dow:{Sun:36,Mon:44,Tue:36,Wed:38,Thu:44,Fri:30,Sat:22},ram:0,norm:250,dj:[8,8,5,5,8,5,5,6,5,8,7,10,8,6,5,5,2,4,4,2,8,4,5,4,4,5,6,4,5,3,4],df:[4,3,3,2,3,3,2,3,3,2,3,5,4,6,4,7,4,3,4,3,2,3,4,6,3,3,3,4],dm:[4,4,3,2,3,5,4,5,4,3,2,4,6,5,5,7,4,4,4,3,4,3,4,6,8,7,3,4,6,7,4]},
+  NGZFC:{c:RD,total:90,j:0,f:8,m:82,lr:81.1,rr:95.6,types:{'Late Order':73,'Missing Item':4,'Delivered by Mistake':3,'Wrong Order':2,'Rider Complaint':2,'Damaged Item':2,'Wrong Item':1,'FC Complaint':1,'Expired Items':2},res:{'No Action Required':74,'Order Redelivered':6,'Order Canceled':4,'Amount Added':2,'Complementary SC':2,'Delivery Free':1},mj:{t:0,l:0},mf:{t:8,l:5},mm:{t:82,l:68},dow:{Sun:14,Mon:16,Tue:14,Wed:12,Thu:14,Fri:10,Sat:10},ram:3,norm:87,dj:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],df:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,2,0,0,1,0],dm:[0,1,1,0,1,2,2,3,2,1,1,2,3,3,3,4,2,2,2,2,2,2,3,4,10,8,3,4,6,8,5]},
+  BHFC:{c:'#0284c7',total:138,j:41,f:38,m:59,lr:84.1,rr:97.8,types:{'Late Order':116,'Wrong Order':5,'Rider Complaint':5,'Missing Item':4,'Damaged Item':3,'Delivered by Mistake':2,'Wrong Item':1,'Expired Items':1,'FC Complaint':1},res:{'No Action Required':118,'Order Redelivered':8,'Order Canceled':5,'Amount Added':4,'Complementary SC':2,'Delivery Free':1},mj:{t:41,l:32},mf:{t:38,l:28},mm:{t:59,l:56},dow:{Sun:20,Mon:25,Tue:20,Wed:22,Thu:24,Fri:16,Sat:11},ram:1,norm:137,dj:[4,4,3,3,4,3,3,3,2,4,3,5,3,3,2,3,1,2,2,1,4,2,3,2,2,3,3,2,2,1,2],df:[2,2,2,1,2,1,1,1,2,1,1,3,3,3,2,4,2,2,2,2,1,2,2,3,2,1,2,2],dm:[2,2,2,1,2,3,2,3,2,2,1,2,3,3,3,4,2,2,2,2,2,2,3,4,6,5,2,3,4,5,3]},
+  GOUNAFC:{c:AM,total:45,j:13,f:5,m:27,lr:75.6,rr:100,types:{'Late Order':34,'Rider Complaint':4,'Missing Item':3,'Damaged Item':2,'Delivered by Mistake':1,'Wrong Order':1},res:{'No Action Required':38,'Order Redelivered':4,'Order Canceled':2,'Amount Added':1},mj:{t:13,l:8},mf:{t:5,l:0},mm:{t:27,l:26},dow:{Sun:6,Mon:8,Tue:7,Wed:6,Thu:8,Fri:5,Sat:5},ram:0,norm:45,dj:[1,1,0,1,1,1,1,1,1,1,1,2,1,1,1,1,0,0,0,0,1,0,1,0,0,1,1,0,1,0,0],df:[0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],dm:[0,1,1,0,1,1,1,1,1,1,0,1,2,2,2,3,1,1,1,1,1,1,1,2,4,4,1,2,3,4,2]},
+  ZFC:{c:'#16a34a',total:29,j:16,f:8,m:5,lr:31.0,rr:100,types:{'Late Order':9,'Damaged Item':7,'Wrong Order':4,'Delivered by Mistake':2,'Missing Item':2,'Rider Complaint':2,'Wrong Item':1,'Expired Items':1,'FC Complaint':1},res:{'No Action Required':25,'Order Redelivered':2,'Order Canceled':1,'Amount Added':1},mj:{t:16,l:5},mf:{t:8,l:2},mm:{t:5,l:2},dow:{Sun:4,Mon:5,Tue:4,Wed:4,Thu:5,Fri:4,Sat:3},ram:0,norm:29,dj:[1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0],df:[1,1,1,0,1,0,0,1,1,0,0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0],dm:[0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0]}
+};
+const FCS=Object.keys(FCD);
+const FST={LTSFC:{l:'Highest Volume',bg:'#fef2f2',c:RD},NCFC:{l:'Volatile ⚠',bg:'#fff7ed',c:'#ea580c'},SHZFC:{l:'Best Improvement ✓',bg:'#f0fdf4',c:MR},HELIOFC:{l:'Growing',bg:'#faf5ff',c:PR},MADFC:{l:'Stable',bg:'#f0f9ff',c:'#0284c7'},NGZFC:{l:'New · Critical 🚨',bg:'#fef2f2',c:RD},BHFC:{l:'Growing',bg:'#f0f9ff',c:'#0284c7'},GOUNAFC:{l:'Growing',bg:'#fffbeb',c:AM},ZFC:{l:'Best Late Rate ✓',bg:'#f0fdf4',c:'#16a34a'}};
+
+function buildOV(){
+  mB('ov_vol',['Jan','Feb','Mar'],[{label:'Complaints',data:[1496,1302,2002],backgroundColor:[JN+'cc',FB+'cc',MR+'cc'],borderColor:[JN,FB,MR],borderWidth:1.5,borderRadius:6}],{plugins:{legend:{display:false},tooltip:TT}});
+  new Chart(document.getElementById('ov_dow'),{type:'radar',data:{labels:DY,datasets:[{label:'Jan',data:DJ,backgroundColor:JN+'22',borderColor:JN,borderWidth:2,pointBackgroundColor:JN,pointRadius:3},{label:'Feb',data:DF,backgroundColor:FB+'22',borderColor:FB,borderWidth:2,pointBackgroundColor:FB,pointRadius:3},{label:'Mar',data:DM,backgroundColor:MR+'22',borderColor:MR,borderWidth:2,pointBackgroundColor:MR,pointRadius:3}]},options:{...BO,scales:{r:{grid:{color:'#e2e8f0'},ticks:{backdropColor:'transparent',font:{size:9},color:'#94a3b8'},pointLabels:{font:{size:10,weight:'600'},color:'#475569'}}}}});
+  const tsDs=TYP.slice(0,5).map((t,i)=>({label:t,data:[+((TJ[i]/1496)*100).toFixed(1),+((TF[i]/1302)*100).toFixed(1),+((TM[i]/2002)*100).toFixed(1)],backgroundColor:PAL[i]+'cc',borderColor:PAL[i],borderWidth:1}));
+  new Chart(document.getElementById('ov_ts'),{type:'bar',data:{labels:['Jan','Feb','Mar'],datasets:tsDs},options:{...BO,scales:{x:{stacked:true,grid:{color:'#f1f5f9'},ticks:{font:{size:10},color:'#94a3b8'}},y:{stacked:true,grid:{color:'#f1f5f9'},ticks:{font:{size:10},color:'#94a3b8',callback:v=>v+'%'}}},plugins:{legend:{labels:{font:{size:9},color:'#475569',boxWidth:9,padding:8}},tooltip:{...TT,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}}}});
+  mD('ov_pie',TYP,TYP.map((_,i)=>TJ[i]+TF[i]+TM[i]),PAL);
+}
+
+function buildTR(){
+  const aL=[...JL,...FL,...ML],aV=[...JV,...FV,...MV];
+  mB('tr_full',aL,[{label:'Complaints',data:aV,backgroundColor:aV.map((_,i)=>i<31?JN+'bb':i<59?FB+'bb':MR+'bb'),borderColor:aV.map((_,i)=>i<31?JN:i<59?FB:MR),borderWidth:1,borderRadius:3}],{plugins:{legend:{display:false},tooltip:TT},scales:{x:{grid:{color:'#f1f5f9'},ticks:{font:{size:7},color:'#94a3b8',maxTicksLimit:20,maxRotation:40}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:9},color:'#94a3b8'}}}});
+  [[' tr_jan',JL,JV,JN],[' tr_feb',FL,FV,FB],[' tr_mar',ML,MV,MR]].forEach(([id,l,v,c])=>{mL(id.trim(),l,[{label:'',data:v,backgroundColor:c+'18',borderColor:c,borderWidth:2,fill:true,tension:0.35,pointRadius:1.5,pointBackgroundColor:c,pointHoverRadius:5}],{plugins:{legend:{display:false},tooltip:TT},scales:{x:{grid:{color:'#f1f5f9'},ticks:{font:{size:7},color:'#94a3b8',maxTicksLimit:8,maxRotation:35}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:9},color:'#94a3b8'}}}});});
+  const r7=a=>a.map((_,i)=>{const w=a.slice(Math.max(0,i-6),i+1);return+(w.reduce((x,y)=>x+y,0)/w.length).toFixed(1);});
+  mL('tr_roll',aL,[{label:'7-Day Rolling Avg',data:r7(aV),backgroundColor:PR+'18',borderColor:PR,borderWidth:2.5,fill:true,tension:0.4,pointRadius:0,pointHoverRadius:6}],{plugins:{legend:{labels:{font:{size:10},color:'#475569',boxWidth:9}},tooltip:TT},scales:{x:{grid:{color:'#f1f5f9'},ticks:{font:{size:7},color:'#94a3b8',maxTicksLimit:22,maxRotation:40}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:9},color:'#94a3b8'}}}});
+}
+
+function buildFC(){
+  const grid=document.getElementById('fcGrid');grid.innerHTML='';
+  const mx=Math.max(...FCS.map(fc=>FCD[fc].total));
+  FCS.forEach(fc=>{
+    const d=FCD[fc],st=FST[fc],isN=d.j===0,cp=isN?null:Math.round((d.m-d.j)/d.j*100);
+    const cs=isN?'New FC':(cp>0?`+${cp}%`:`${cp}%`),cc=isN?PR:cp>0?RD:MR;
+    grid.innerHTML+=`<div class="fc-card" style="--fcc:${d.c}" onclick="showFCD('${fc}')">
+      <div class="fc-code">${fc}</div><div class="fc-tot">${d.total.toLocaleString()}</div>
+      <div class="fc-meta">Q1 Total · ${((d.total/4800)*100).toFixed(1)}% of Q1</div>
+      <div class="fc-bars">
+        <div class="fc-br"><div class="fc-bl">JAN</div><div class="fc-bt"><div class="fc-bf" style="width:${(d.j/mx*100).toFixed(1)}%;background:${JN}"></div></div></div>
+        <div class="fc-br"><div class="fc-bl">FEB</div><div class="fc-bt"><div class="fc-bf" style="width:${(d.f/mx*100).toFixed(1)}%;background:${FB}"></div></div></div>
+        <div class="fc-br"><div class="fc-bl">MAR</div><div class="fc-bt"><div class="fc-bf" style="width:${(d.m/mx*100).toFixed(1)}%;background:${MR}"></div></div></div>
+      </div>
+      <div class="fc-sr">
+        <div class="fc-stat"><div class="fc-sv" style="color:${RD}">${d.lr}%</div><div class="fc-sl">Late Rate</div></div>
+        <div class="fc-stat"><div class="fc-sv" style="color:${MR}">${d.rr}%</div><div class="fc-sl">Resolved</div></div>
+        <div class="fc-stat"><div class="fc-sv" style="color:${cc}">${cs}</div><div class="fc-sl">J→M</div></div>
+      </div>
+      <div class="fc-bdg" style="background:${st.bg};color:${st.c}">${st.l}</div>
+    </div>`;
+  });
+  mB('fc_grp',FCS,[{label:'Jan',data:FCS.map(fc=>FCD[fc].j),backgroundColor:JN+'bb',borderColor:JN,borderWidth:1.5,borderRadius:4},{label:'Feb',data:FCS.map(fc=>FCD[fc].f),backgroundColor:FB+'bb',borderColor:FB,borderWidth:1.5,borderRadius:4},{label:'Mar',data:FCS.map(fc=>FCD[fc].m),backgroundColor:MR+'bb',borderColor:MR,borderWidth:1.5,borderRadius:4}]);
+  mD('fc_don',FCS,FCS.map(fc=>FCD[fc].total),FCS.map(fc=>FCD[fc].c));
+  mL('fc_lin',['Jan','Feb','Mar'],FCS.map(fc=>({label:fc,data:[FCD[fc].j,FCD[fc].f,FCD[fc].m],backgroundColor:FCD[fc].c+'12',borderColor:FCD[fc].c,borderWidth:2,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:FCD[fc].c})));
+}
+
+function showFCD(fc){
+  const d=FCD[fc],st=FST[fc],isN=d.j===0,cp=isN?null:Math.round((d.m-d.j)/d.j*100);
+  const cs=isN?'New FC':(cp>0?`+${cp}%`:`${cp}%`),cc=isN?PR:cp>0?RD:MR;
+  const aD=[...d.dj,...d.df,...d.dm],aL=[...JL,...FL,...ML];
+  const rMx=Math.max(...Object.values(d.res));
+  const rH=Object.entries(d.res).map(([l,v])=>`<div class="br"><div class="bm"><span class="bn">${l}</span><span class="bv" style="color:${d.c}">${v}</span></div><div class="bt"><div class="bf" style="width:${(v/rMx*100).toFixed(1)}%;background:${d.c}"></div></div></div>`).join('');
+  document.getElementById('fc-dc').innerHTML=`
+    <div class="back-btn" onclick="goBack()">← Back to All Branches</div>
+    <div class="fc-ph" style="--fcc2:${d.c}">
+      <div><div class="fc-pn">${fc}</div><div class="fc-ps">FULFILMENT CENTRE · Q1 2026 · JANUARY → MARCH</div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div class="mbdg" style="background:#eff6ff;color:${JN};border:1px solid #bfdbfe"><span style="width:8px;height:8px;border-radius:50%;background:${JN};display:inline-block"></span>Jan: ${d.j}</div>
+        <div class="mbdg" style="background:#ecfeff;color:${FB};border:1px solid #a5f3fc"><span style="width:8px;height:8px;border-radius:50%;background:${FB};display:inline-block"></span>Feb: ${d.f}</div>
+        <div class="mbdg" style="background:#f0fdf4;color:${MR};border:1px solid #bbf7d0"><span style="width:8px;height:8px;border-radius:50%;background:${MR};display:inline-block"></span>Mar: ${d.m}</div>
+        <div class="fc-bdg" style="background:${st.bg};color:${st.c};font-size:0.62rem;padding:5px 12px">${st.l}</div>
+      </div>
+    </div>
+    <div class="fc-kr">
+      <div class="kpi" style="--a:${d.c}"><div class="kpi-ac"></div><div class="kpi-lb">Q1 Total</div><div class="kpi-vs"><span class="kv" style="color:${d.c}">${d.total.toLocaleString()}</span></div><div class="kpi-sb">${((d.total/4800)*100).toFixed(1)}% of all Q1</div></div>
+      <div class="kpi" style="--a:${RD}"><div class="kpi-ac"></div><div class="kpi-lb">Late Rate</div><div class="kpi-vs"><span class="kv" style="color:${RD}">${d.lr}%</span></div><div class="kpi-sb">Of FC complaints</div></div>
+      <div class="kpi" style="--a:#059669"><div class="kpi-ac"></div><div class="kpi-lb">Resolution</div><div class="kpi-vs"><span class="kv" style="color:#059669">${d.rr}%</span></div><div class="kpi-sb">Resolved rate</div></div>
+      <div class="kpi" style="--a:${cc}"><div class="kpi-ac"></div><div class="kpi-lb">Jan → Mar</div><div class="kpi-vs"><span class="kv" style="color:${cc};font-size:1.2rem">${cs}</span></div><div class="kpi-sb">Volume change</div></div>
+      <div class="kpi" style="--a:${PR}"><div class="kpi-ac"></div><div class="kpi-lb">Ramadan</div><div class="kpi-vs"><span class="kv" style="color:${PR}">${d.ram}</span></div><div class="kpi-sb">Ramadan complaints</div></div>
+      <div class="kpi" style="--a:${AM}"><div class="kpi-ac"></div><div class="kpi-lb">Normal Period</div><div class="kpi-vs"><span class="kv" style="color:${AM}">${d.norm}</span></div><div class="kpi-sb">Non-Ramadan</div></div>
+    </div>
+    <div class="g2">
+      <div class="card" style="--a:${d.c}"><div class="ct">Daily Trend — Full Quarter</div><div class="cs">ALL 90 DAYS · ${fc}</div><div class="cw" style="min-height:215px;"><canvas id="fd_tr"></canvas></div></div>
+      <div class="card" style="--a:${JN}"><div class="ct">Monthly Breakdown</div><div class="cs">TOTAL vs LATE ORDERS</div><div class="cw" style="min-height:215px;"><canvas id="fd_mo"></canvas></div></div>
+    </div>
+    <div class="g2">
+      <div class="card" style="--a:${FB}"><div class="ct">Complaint Types</div><div class="cs">BREAKDOWN FOR ${fc}</div><div class="cw" style="min-height:225px;"><canvas id="fd_ty"></canvas></div></div>
+      <div class="card" style="--a:${MR}"><div class="ct">Resolution Actions</div><div class="cs">HOW COMPLAINTS WERE HANDLED</div><div class="bb" style="margin-top:4px">${rH}</div></div>
+    </div>
+    <div class="g2">
+      <div class="card" style="--a:${PR}"><div class="ct">Day-of-Week Pattern</div><div class="cw" style="min-height:205px;"><canvas id="fd_dw"></canvas></div></div>
+      <div class="card" style="--a:${AM}"><div class="ct">Ramadan vs Normal Period</div><div class="cw" style="min-height:205px;"><canvas id="fd_rm"></canvas></div></div>
+    </div>`;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-fc-detail').classList.add('active');
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  const bc=aD.map((_,i)=>i<31?d.c+'bb':i<59?d.c+'77':d.c+'ee');
+  mB('fd_tr',aL,[{label:'Complaints',data:aD,backgroundColor:bc,borderColor:d.c,borderWidth:1,borderRadius:2}],{plugins:{legend:{display:false},tooltip:TT},scales:{x:{grid:{color:'#f1f5f9'},ticks:{font:{size:6},color:'#94a3b8',maxTicksLimit:18,maxRotation:40}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:9},color:'#94a3b8'}}}});
+  mB('fd_mo',['Jan','Feb','Mar'],[{label:'Total',data:[d.j,d.f,d.m],backgroundColor:[JN+'bb',FB+'bb',MR+'bb'],borderColor:[JN,FB,MR],borderWidth:1.5,borderRadius:6},{label:'Late Orders',data:[d.mj.l,d.mf.l,d.mm.l],backgroundColor:[JN+'44',FB+'44',MR+'44'],borderColor:[JN,FB,MR],borderWidth:1,borderRadius:6}]);
+  mD('fd_ty',Object.keys(d.types),Object.values(d.types),PAL);
+  new Chart(document.getElementById('fd_dw'),{type:'bar',data:{labels:Object.keys(d.dow),datasets:[{label:'Complaints',data:Object.values(d.dow),backgroundColor:d.c+'bb',borderColor:d.c,borderWidth:1.5,borderRadius:6}]},options:{...BO,plugins:{legend:{display:false},tooltip:TT},scales:SC(10,10)}});
+  mD('fd_rm',['Ramadan','Normal Period'],[d.ram,d.norm],[PR,d.c]);
+  window.scrollTo(0,0);
+}
+function goBack(){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-fc-home').classList.add('active');
+  document.querySelectorAll('.nb').forEach((b,i)=>{if(i===2)b.classList.add('active');});
+  window.scrollTo(0,0);
+}
+
+function buildTY(){
+  [['ty_j',TJ],['ty_f',TF],['ty_m',TM]].forEach(([id,data])=>mD(id,TYP,data,PAL));
+  mB('ty_cmp',TYP,[{label:'Jan',data:TJ,backgroundColor:JN+'bb',borderColor:JN,borderWidth:1.5,borderRadius:4},{label:'Feb',data:TF,backgroundColor:FB+'bb',borderColor:FB,borderWidth:1.5,borderRadius:4},{label:'Mar',data:TM,backgroundColor:MR+'bb',borderColor:MR,borderWidth:1.5,borderRadius:4}],{scales:{x:{grid:{color:'#f1f5f9'},ticks:{font:{size:9},color:'#94a3b8',maxRotation:20}},y:{grid:{color:'#f1f5f9'},ticks:{font:{size:10},color:'#94a3b8'}}}});
+}
+
+const B={};
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+(id==='fc-home'?'fc-home':id)).classList.add('active');
+  if(el)el.classList.add('active');
+  if(!B[id]){B[id]=true;if(id==='trends')buildTR();if(id==='fc-home')buildFC();if(id==='types')buildTY();if(id==='ramadan')buildRamadan();}
+  window.scrollTo(0,0);
+}
+buildOV();B['overview']=true;
+
+function buildRamadan(){
+  if(window._ram) return; window._ram=true;
+  const R25='#b0bec5', R26=getComputedStyle(document.documentElement).getPropertyValue('--blue').trim()||'#0b84e3';
+  const C26='#0b84e3';
+  const rT=['Late Order','Missing Item','Wrong Order','Damaged Item','Rider Complaint','Delivered by Mistake','Expired Items','FC Complaint'];
+  const r25T=[311,25,12,27,15,12,44,1], r26T=[1211,35,32,57,26,24,13,10];
+  const days=Array.from({length:30},(_,i)=>'D'+(i+1));
+  const r25D=[13,11,18,15,12,16,19,14,15,18,20,15,17,14,11,19,15,18,12,10,16,13,15,12,17,19,14,12,11,8];
+  const r26D=[46,42,34,45,50,83,38,40,43,52,40,44,37,26,38,56,52,60,51,39,28,54,70,62,67,87,46,49,47,40];
+  const rFCs=['LTSFC','NCFC','SHZFC','HELIOFC','MADFC','NGZFC','BHFC','ZFC'];
+  const r25FC=[106,67,195,24,25,0,15,17], r26FC=[427,216,211,146,79,240,90,12];
+  const rDays=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const r25dow=[64,62,57,43,54,48,121], r26dow=[212,232,205,141,225,211,200];
+  const sc={x:{grid:{color:'#dbeafe'},ticks:{font:{size:8},color:'#6b8bb3'}},y:{grid:{color:'#dbeafe'},ticks:{font:{size:9},color:'#6b8bb3'}}};
+  const bo={responsive:true,maintainAspectRatio:false,animation:{duration:500},plugins:{legend:{labels:{font:{size:10},color:'#3b4b63',boxWidth:9,padding:10}},tooltip:{backgroundColor:'#fff',borderColor:'#b6d4fe',borderWidth:1,titleColor:'#066cc1',bodyColor:'#3b4b63',titleFont:{size:11,weight:'700'},bodyFont:{size:10},padding:10}}};
+
+  new Chart(document.getElementById('ram_daily'),{type:'line',data:{labels:days,datasets:[
+    {label:'Ramadan 2025',data:r25D,backgroundColor:R25+'33',borderColor:R25,borderWidth:2,fill:true,tension:0.35,pointRadius:2,pointBackgroundColor:R25},
+    {label:'Ramadan 2026',data:r26D,backgroundColor:C26+'22',borderColor:C26,borderWidth:2.5,fill:true,tension:0.35,pointRadius:2,pointBackgroundColor:C26},
+  ]},options:{...bo,scales:sc}});
+
+  new Chart(document.getElementById('ram_dow'),{type:'radar',data:{labels:rDays,datasets:[
+    {label:'2025',data:r25dow,backgroundColor:R25+'33',borderColor:R25,borderWidth:2,pointBackgroundColor:R25,pointRadius:3},
+    {label:'2026',data:r26dow,backgroundColor:C26+'33',borderColor:C26,borderWidth:2,pointBackgroundColor:C26,pointRadius:3},
+  ]},options:{...bo,scales:{r:{grid:{color:'#b6d4fe'},ticks:{backdropColor:'transparent',font:{size:8},color:'#6b8bb3'},pointLabels:{font:{size:10,weight:'600'},color:'#3b4b63'}}}}});
+
+  new Chart(document.getElementById('ram_fc'),{type:'bar',data:{labels:rFCs,datasets:[
+    {label:'Ramadan 2025',data:r25FC,backgroundColor:R25+'99',borderColor:R25,borderWidth:1.5,borderRadius:4},
+    {label:'Ramadan 2026',data:r26FC,backgroundColor:C26+'99',borderColor:C26,borderWidth:1.5,borderRadius:4},
+  ]},options:{...bo,scales:sc}});
+
+  const colors=['#0b84e3','#39a0ed','#0077d7','#dc2626','#7c3aed','#ea580c','#0284c7','#d97706'];
+  new Chart(document.getElementById('ram_types'),{type:'bar',data:{labels:['Ramadan 2025','Ramadan 2026'],datasets:rT.map((t,i)=>({
+    label:t,data:[+((r25T[i]/449)*100).toFixed(1),+((r26T[i]/1426)*100).toFixed(1)],
+    backgroundColor:colors[i]+'cc',borderColor:colors[i],borderWidth:1,
+  }))},options:{...bo,scales:{x:{stacked:true,grid:{color:'#dbeafe'},ticks:{font:{size:11},color:'#6b8bb3'}},y:{stacked:true,grid:{color:'#dbeafe'},ticks:{font:{size:9},color:'#6b8bb3',callback:v=>v+'%'}}},plugins:{...bo.plugins,tooltip:{...bo.plugins.tooltip,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}}}});
+
+  const bEl=document.getElementById('ram_fc_bars');
+  const mx=Math.max(...r26FC);
+  rFCs.forEach((fc,i)=>{
+    const isN=r25FC[i]===0;
+    const pct=isN?null:Math.round((r26FC[i]-r25FC[i])/(r25FC[i]||1)*100);
+    const badge=isN
+      ?'<span style="font-family:var(--mono);font-size:0.54rem;color:#7c3aed;background:#f0e8ff;padding:2px 7px;border-radius:4px;font-weight:700;margin-left:6px">NEW</span>'
+      :`<span style="font-family:var(--mono);font-size:0.54rem;color:${pct>0?'#dc2626':'#059669'};font-weight:700;margin-left:6px">${pct>0?'▲':'▼'}${Math.abs(pct)}%</span>`;
+    bEl.innerHTML+=`<div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:0.8rem;font-weight:700;color:#066cc1">${fc}${badge}</span>
+        <div style="display:flex;gap:14px">
+          <span style="font-family:var(--mono);font-size:0.62rem;color:#95a5a6">2025: ${r25FC[i]}</span>
+          <span style="font-family:var(--mono);font-size:0.62rem;color:#0b84e3;font-weight:700">2026: ${r26FC[i]}</span>
+        </div>
+      </div>
+      <div style="height:6px;background:#dbeafe;border-radius:3px;overflow:hidden"><div style="height:100%;width:${(r25FC[i]/mx*100).toFixed(1)}%;background:#b0bec5;border-radius:3px;transition:width 1s"></div></div>
+      <div style="height:6px;background:#dbeafe;border-radius:3px;overflow:hidden"><div style="height:100%;width:${(r26FC[i]/mx*100).toFixed(1)}%;background:#0b84e3;border-radius:3px;transition:width 1s"></div></div>
+    </div>`;
+  });
+}
+
+buildAll();
+</script>
+</body>
+</html>
